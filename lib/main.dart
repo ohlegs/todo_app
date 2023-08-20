@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project/core/data/DBController.dart';
+import 'package:project/core/presentation/blocs/bloc/task_bloc.dart';
 import 'package:project/core/routes/Route.dart';
 
 void main() async {
@@ -17,9 +19,12 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(useMaterial3: true),
-      routes: Routes.getRoute(),
+    return BlocProvider(
+      create: (context) => TaskBloc(),
+      child: MaterialApp(
+        theme: ThemeData(useMaterial3: true),
+        routes: Routes.getRoute(),
+      ),
     );
   }
 }

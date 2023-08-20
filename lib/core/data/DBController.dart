@@ -32,9 +32,8 @@ class DBController implements DBController_abstr {
   }
 
   @override
-  Future<Iterable<Task>> getAll() async {
-    final value = _box?.values;
-    print(_box?.values);
+  Future<List<Task>> getAll() async {
+    final value = _box?.values.toList();
     return value ?? [];
   }
 
