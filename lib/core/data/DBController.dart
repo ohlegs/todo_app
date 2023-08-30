@@ -3,47 +3,49 @@ import 'package:project/core/data/model/Task.dart';
 import 'package:project/core/domain/DBControler_abstr.dart';
 export 'DBController.dart';
 
-DBController dbController = DBController();
+DBControllerImplements dbControllerImplements = DBControllerImplements();
 
-class DBController implements DBController_abstr {
-  Box<Task>? _box;
-
-  @override
-  Future<void> init() async {
-    await Hive.initFlutter();
-    Hive.registerAdapter(TaskAdapter());
-    _box = await Hive.openBox('tasks');
-  }
-
+class DBControllerImplements implements DBController_abstr {
   @override
   Future<void> close() async {
-    await _box?.close();
+    final box = await Hive.openBox<Task>('tasks');
+    await box.close();
   }
 
   @override
   Future<void> create(Task data) async {
-    await _box?.add(data);
+    final box = await Hive.openBox<Task>('tasks');
+    await box.add(data);
+    await box.close();
   }
 
   @override
   Future<Task?> read(int key) async {
-    final value = await _box?.get(key);
+    final box = await Hive.openBox<Task>('tasks');
+    final value = box.get(key);
+    await box.close();
     return value;
   }
 
   @override
   Future<List<Task>> getAll() async {
-    final value = _box?.values.toList();
-    return value ?? [];
+    final Box<Task> box = await Hive.openBox<Task>('tasks');
+    final value = box.values.toList();
+    await box.close();
+    return value;
   }
 
   @override
   Future<void> update(int key, Task newData) async {
-    return await _box?.put(key, newData);
+    final box = await Hive.openBox<Task>('tasks');
+    await box.put(key, newData);
+    await box.close();
   }
 
   @override
   Future<void> delete(int key) async {
-    await _box?.delete(key);
+    final box = await Hive.openBox<Task>('tasks');
+    await box.delete(key);
+    await box.close();
   }
 }

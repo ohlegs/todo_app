@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:project/core/data/DBController.dart';
+import 'package:project/core/data/model/Task.dart';
 import 'package:project/core/presentation/blocs/bloc/task_bloc.dart';
 import 'package:project/core/routes/Route.dart';
 
 void main() async {
-  dbController.init();
+  await Hive.initFlutter();
+  Hive.registerAdapter(TaskAdapter());
+
   runApp(const Main());
 }
 
