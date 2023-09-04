@@ -29,6 +29,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             dateStart: DateTime.now(),
             dateEnd: DateTime.now(),
             statusCompleet: "123",
+            priority: event.newTask.priority,
             compleet: false,
             price: 123));
         add(InitTaskEvent());

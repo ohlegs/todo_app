@@ -41,8 +41,8 @@ class _HomeState extends State<Home> {
           },
         ),
         body: NotificationListener(
-            onNotification: (ScrollNotification sctollInfo) {
-              _swithOnPressFloatingActionButtonContent(sctollInfo);
+            onNotification: (ScrollNotification scrollInfo) {
+              _swithOnPressFloatingActionButtonContent(scrollInfo);
               return true;
             },
             child: CustomScrollView(controller: scrollViewColtroller, slivers: [

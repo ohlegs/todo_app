@@ -18,6 +18,8 @@ class Task {
   bool? compleet;
   @HiveField(7)
   num? price;
+  @HiveField(8)
+  int? priority;
 
   Task(
       {required this.title,
@@ -26,5 +28,6 @@ class Task {
       required this.dateEnd,
       required this.statusCompleet,
       required this.compleet,
-      required this.price});
+      required this.price,
+      required this.priority});
 }

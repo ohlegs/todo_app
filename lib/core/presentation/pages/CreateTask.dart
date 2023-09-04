@@ -5,6 +5,7 @@ import 'package:project/core/presentation/blocs/bloc/task_bloc.dart';
 import 'package:project/core/presentation/widgets/CustomDataPicker.dart';
 import 'package:project/core/presentation/widgets/CustomElevatedButton.dart';
 import 'package:project/core/presentation/widgets/CustomTextField.dart';
+import 'package:project/core/presentation/widgets/PriorityPicker.dart';
 
 enum Priority { low, normal, hot }
 
@@ -19,6 +20,8 @@ class _CreateTaskState extends State<CreateTask> {
   TextEditingController taskTitle = TextEditingController();
   TextEditingController taskDescription = TextEditingController();
   TextEditingController description = TextEditingController();
+  int? priority;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,12 +57,41 @@ class _CreateTaskState extends State<CreateTask> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CustomDataPicker(
+                          callBack: () {},
                           label: "Start Date",
                           margin: const EdgeInsets.only(top: 20)),
                       CustomDataPicker(
+                          callBack: () {},
                           label: "End Date",
                           margin: const EdgeInsets.only(left: 20, top: 20)),
                     ],
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    child: Wrap(
+                      children: [
+                        PriorityPicker(
+                            text: "Low",
+                            priority: 0,
+                            currentPriority: priority,
+                            callBack: _selectPriority,
+                            color: Colors.green),
+                        PriorityPicker(
+                            margin: const EdgeInsets.only(left: 10),
+                            text: 'Normal',
+                            priority: 1,
+                            currentPriority: priority,
+                            callBack: _selectPriority,
+                            color: Colors.amber),
+                        PriorityPicker(
+                            margin: const EdgeInsets.only(left: 10),
+                            text: "Hot",
+                            priority: 2,
+                            currentPriority: priority,
+                            callBack: _selectPriority,
+                            color: Colors.red),
+                      ],
+                    ),
                   ),
                   CustomTextField(
                     controller: description,
@@ -83,6 +115,13 @@ class _CreateTaskState extends State<CreateTask> {
     );
   }
 
+  _selectPriority(int _priority) {
+    print(_priority);
+    setState(() {
+      priority = _priority;
+    });
+  }
+
   _customElevatedButton() {
     final bloc = BlocProvider.of<TaskBloc>(context);
     bloc.add(AddNewTask(
@@ -93,8 +132,11 @@ class _CreateTaskState extends State<CreateTask> {
             dateEnd: DateTime.now(),
             statusCompleet: "NULL",
             compleet: false,
+            priority: priority,
             price: 150)));
   }
+
+  _callBackDataPicker(DateTime date) {}
 
   _iconButton() {
     Navigator.pop(context);

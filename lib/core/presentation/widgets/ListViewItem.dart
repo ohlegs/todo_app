@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:project/core/data/model/Task.dart';
 import 'package:project/core/presentation/Colors.dart';
 import 'package:project/core/presentation/widgets/CustimLabelPrioryti.dart';
+import 'package:project/core/routes/Route.dart';
 
 class ListViewItem extends StatefulWidget {
   Task task;
+
   ListViewItem({required this.task, Key? key}) : super(key: key);
 
   @override
@@ -18,6 +20,9 @@ class _ListViewItemState extends State<ListViewItem> {
   Widget build(BuildContext context) {
     print(widget.task.compleet);
     return GestureDetector(
+      onTap: () {
+        _onTap();
+      },
       onLongPress: () {
         _onLongPress();
       },
@@ -30,7 +35,10 @@ class _ListViewItemState extends State<ListViewItem> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
-            CustomLabelPrioryti(),
+            CustomLabelPrioryti(
+              key: UniqueKey(),
+              prioryti: widget.task.priority,
+            ),
             const Spacer(),
             Text(
                 style: const TextStyle(color: AppColors.white),
@@ -60,6 +68,10 @@ class _ListViewItemState extends State<ListViewItem> {
         ]),
       ),
     );
+  }
+
+  _onTap() {
+    Navigator.pushNamed(context, Routes.details, arguments: widget.task);
   }
 
   _onLongPress() {

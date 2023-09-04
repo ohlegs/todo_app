@@ -6,30 +6,35 @@ class CustomDataPicker extends StatefulWidget {
   EdgeInsets? margin;
   num? paddig;
   int? height;
+  Function callBack;
 
-  CustomDataPicker(
-      {Key? key,
-      this.height,
-      required this.label,
-      this.margin,
-      this.paddig,
-      this.state})
-      : super(key: key);
+  CustomDataPicker({
+    Key? key,
+    this.height,
+    required this.label,
+    this.margin,
+    this.paddig,
+    this.state,
+    required this.callBack,
+  }) : super(key: key);
 
   @override
   _CustomDataPickerState createState() => _CustomDataPickerState();
 }
 
 class _CustomDataPickerState extends State<CustomDataPicker> {
+   DateTime? selectedDate;
+
   @override
   Widget build(BuildContext context) {
+    final initialValue = (selectedDate == null ? widget.label : selectedDate?.day);
     return Container(
       margin: widget.margin,
       width: 150,
       child: TextFormField(
         readOnly: true,
         style: const TextStyle(color: Color(0xFFfee4c1)),
-        initialValue: widget.label,
+        initialValue: initialValue.toString(),
         decoration: InputDecoration(
             labelStyle: const TextStyle(color: Color(0xFFfee4c1)),
             focusedBorder: const OutlineInputBorder(
@@ -54,11 +59,12 @@ class _CustomDataPickerState extends State<CustomDataPicker> {
     );
   }
 
-  _showDataPicker() {
-    showDatePicker(
+  _showDataPicker() async {
+    final DateTime? result = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(2050));
+    widget.callBack(result);
   }
 }
